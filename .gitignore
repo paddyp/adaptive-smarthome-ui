@@ -1,0 +1,9 @@
+.*
+!/.gitignore
+
+# Ignore all node_module files 
+*/node_modules/
+
+#Ignore IDE 
+.vscode/
+.idea/
