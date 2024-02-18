@@ -1,0 +1,14 @@
+{
+  "name": "smarthome",
+  "version": "1.0.0",
+  "description": "The fiktional Smart Home",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrik Pezelj",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/cli": "^17.2.0"
+  }
+}
