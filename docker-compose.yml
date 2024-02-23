@@ -63,13 +63,15 @@ services:
       - ./fastapi/app:/app
     ports:
       - "8000:8000"
+      - 3000:3000
     entrypoint:
       [
         "uvicorn",
         "main:app",
         "--reload",
         "--host",
-        "0.0.0.0"
+        "0.0.0.0",
+        "--log-config=log_conf.yml"
       ]
 volumes:
   mariadb_data:

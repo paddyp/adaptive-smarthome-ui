@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { webSocketService } from './services/websocket/websocket.service';
 import { HttpClientModule } from '@angular/common/http';
-import { webSocket } from 'rxjs/webSocket';
 
 
 @Component({
@@ -22,24 +21,32 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // Connect with websocket
-    this.webSocketService.socket$.subscribe(
-      (message) => {
+    this.connectWebsocket()
+  }
+
+  connectWebsocket(): void {
+    this.webSocketService.socket$.subscribe({
+      next: (message) => {
         console.log("receive message", message)
       },
-      (error) => {
+      error: (error) => {
         console.error("Websocket error: ", error)
+        this.connectWebsocket()
       },
-      () => {
+      complete: () => {
         console.log("WebSocket connection closed")
       }
+    }
     )
-
   }
 
 
   sendData(): void {
     console.log("send data");
-    this.webSocketService.send("hallo");
+    let out = {
+      "method": "get"
+    }
+    this.webSocketService.send(out);
   }
 
 }
