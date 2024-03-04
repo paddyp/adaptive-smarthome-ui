@@ -1,5 +1,20 @@
 <main class="main">
-  <button (click)="sendData()">Send Message</button>
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link" (click)="changeView('contextofuse')" href="#">ContextOfUse</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="changeView('smarthomedevices')" href="#">SmartHomeDevices</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="changeView('adaptuirules')" href="#">AdaptUIRules</a>
+    </li>
+  </ul>
+  <app-smart-home-view *ngIf="currentTab == 'smarthomedevices'" smarthomedevices=""/>
+  <app-context-of-use-view *ngIf="currentTab == 'contextofuse'"/>
+  <app-adapt-uiview *ngIf="currentTab == 'adaptuirules'" />
+  <button (click)="sendData()">Send Message</button> 
+
 
 </main>
 <router-outlet />

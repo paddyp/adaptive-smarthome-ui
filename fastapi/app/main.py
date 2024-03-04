@@ -5,9 +5,9 @@ from utils.const import get_internal_server_error
 import json
 import logging
 
-
-from sql_app import crud, models, schemas
-from sql_app.database import SessionLocal, engine
+from sql_app.database import SessionLocal
+from sql_app import crud
+from utils.const import get_broadcast_data_dict
 
 import debugpy
 debugpy.listen(("0.0.0.0", 3000))
@@ -60,9 +60,9 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             data = await websocket.receive_text()
             broadcast, out = await handle_data(data, next(get_db()))
-            smart_home_devices = await crud.get_smarthome_devices(db=next(get_db()))
+            all_data = get_broadcast_data_dict(crud.get_all_data(db=next(get_db())))
             if broadcast: 
-                await manager.broadcast(json.dumps(smart_home_devices))
+                await manager.broadcast(json.dumps(all_data))
             await manager.send_personal_message(json.dumps(out), websocket)
             
     except WebSocketDisconnect:

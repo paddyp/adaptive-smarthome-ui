@@ -1,6 +1,10 @@
 from sql_app import schemas, models 
 from utils.const import get_broadcast_data_dict
+from sql_app import crud
+from sqlalchemy.orm import joinedload
 import logging 
+import json 
+
 logger = logging.getLogger(__name__)
 
 schemas_dic = {
@@ -9,7 +13,14 @@ schemas_dic = {
     "adaptrules": schemas.ActionUIRuleBase.schema(),  
 }
 def get_data(data, db): 
-    pass
+    _ = data
+    # query_list =  db.query(models.SmarthomeDevice).options(joinedload(models.SmarthomeDevice.channels)).all()
+    # out = []
+    # for item in query_list: 
+    #     temp_smarthomedevice_schema = schemas.SmarthomeDevice(**item.__dict__)
+    #     out.append(json.loads(temp_smarthomedevice_schema.json()))
+    out = get_broadcast_data_dict(crud.get_all_data(db))
+    return (False, out)
 
 def get_schema(data, db): 
     _ = db
@@ -24,6 +35,7 @@ def get_schema(data, db):
         return (False, 
                 {
                     'code': 200, 
+                    'type': 'schema',
                     'schemas': schemas_dic
                 })
 

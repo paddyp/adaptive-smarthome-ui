@@ -1,0 +1,17 @@
+<ng-template [ngIf]="formSchema"> 
+<form [formGroup]="generalForm!" (ngSubmit)="onSubmit()">
+    <div *ngFor="let controlName of generalForm!.controls | keyvalue">
+      <label for="{{ controlName.key }}">{{ controlName.key }}:</label>
+      <input [type]="formSchema.value.type" [id]="controlName.key" [formControlName]="controlName.key">
+    </div>
+  
+    <button type="submit" [disabled]="!generalForm!.valid">Submit</button>
+  </form>
+
+</ng-template>
+ 
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>

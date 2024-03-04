@@ -1,8 +1,6 @@
 import logging
-from sql_app.crud import get_smarthome_devices
-from sql_app import models 
 from utils import create, get
-from utils.const import get_internal_server_error, get_method_not_found
+from utils.const import get_method_not_found
 logger = logging.getLogger(__name__)
 
 def handle_create(data, db): 

@@ -1,15 +1,47 @@
 from sqlalchemy.orm import Session, joinedload
 from utils.const import get_broadcast_data_dict
 from . import models, schemas
+import json 
 
+def get_smarthome_devices(db: Session, skip: int = 0, limit: int = 100) -> list: 
+    # query_list =  db.query(models.SmarthomeDevice).options(joinedload(models.SmarthomeDevice.channels)).offset(skip).limit(limit).all()
+    # out = []
+    # for item in query_list: 
+    #     temp_smarthomedevice_schema = schemas.SmarthomeDevice(**item.__dict__)
+    #     out.append(json.loads(temp_smarthomedevice_schema.json()))
 
-async def get_smarthome_devices(db: Session, skip: int = 0, limit: int = 100) -> list: 
-    query_list =  db.query(models.SmarthomeDevice).options(joinedload(models.SmarthomeDevice.channels)).offset(skip).limit(limit).all()
+    query_list =  db.query(models.SmarthomeDevice).options(joinedload(models.SmarthomeDevice.channels)).all()
     out = []
     for item in query_list: 
         temp_smarthomedevice_schema = schemas.SmarthomeDevice(**item.__dict__)
-        out.append(temp_smarthomedevice_schema.json())
-    return get_broadcast_data_dict(out)
+        out.append(json.loads(temp_smarthomedevice_schema.json()))
+    return out
+
+def get_contextofuse(db: Session, skip: int = 0, limit: int = 100) -> list: 
+    query_list = db.query(models.ContextOfUse).all()
+    out = []
+    for item in query_list: 
+        temp_contextofuse_schema = schemas.ContextOfUse(**item.__dict__)
+        out.append(json.loads(temp_contextofuse_schema.json()))
+    return out
+
+def get_adaptuirules(db: Session, skip: int = 0, limit: int = 100) -> list: 
+    query_list = db.query(models.AdaptUIRule).options(joinedload(models.AdaptUIRule.actions)).all()
+    out = []
+    for item in query_list: 
+        temp_dict = item.__dict__ 
+        temp_dict['actions'] = [action.__dict__ for action in temp_dict['actions']]
+        temp_adaptuirule = schemas.ActionUIRuleBase(**temp_dict)
+        out.append(json.loads(temp_adaptuirule.json()))
+    return out 
+
+def get_all_data(db: Session): 
+    return {
+        'smarthomedevices': get_smarthome_devices(db), 
+        'contextofuse': get_contextofuse(db), 
+        'adaptuirules': get_adaptuirules(db)
+    }
+
 
 # def get_user(db: Session, user_id: int):
 #     return db.query(models.User).filter(models.User.id == user_id).first()

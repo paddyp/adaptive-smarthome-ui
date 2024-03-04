@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from ..models.adaptrules import ActionEnum
+from ..models.adaptrules import ActionGroupEnum
 
 class ActionBase(BaseModel): 
     adaptui_id: int
@@ -12,5 +12,5 @@ class Action(ActionBase):
 class ActionUIRuleBase(BaseModel): 
     name: str 
     level: str 
-    actiongroup: ActionEnum
+    actiongroup: ActionGroupEnum
     actions: list[Action]
