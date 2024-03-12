@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Connect with websocket
     this.connectWebsocket()
+    this.getData()
   }
 
   connectWebsocket(): void {
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit {
         console.log(message)
 
         if (message.method && message.method == "broadcast" && message.type && message.type == "data" && message.data) {
-          this.data = message.data.smarthomedevices
+          this.data = message.data.smarthomeview
           console.log(this.data)
           this.cdr.detectChanges();
         }

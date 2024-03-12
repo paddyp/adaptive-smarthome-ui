@@ -51,11 +51,13 @@ async def handle_data(data: str, db: Session):
     except Exception as e:
         logger.error(e) 
         logger.info(f"Can not handle {data}")
-
-
+    
+    
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket): 
     await manager.connect(websocket)
+    all_data = get_broadcast_data_dict(crud.get_all_data(db=next(get_db())))
+    await manager.broadcast(json.dumps(all_data))
     try:
         while True:
             data = await websocket.receive_text()
@@ -89,7 +91,10 @@ class ConnectionManager:
 
     async def broadcast(self, message):
         for connection in self.active_connections:
-            await connection.send_text(message)
+            try: 
+                await connection.send_text(message)
+            except Exception as e: 
+                logger.error(e)
 
 
 manager = ConnectionManager()

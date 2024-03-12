@@ -1,5 +1,12 @@
-<main class="main">
-  <button (click)="sendData()">Send Message</button>
-
+<main class="container">
+  <h1> User Interface </h1>
+  <div class="items">
+    <ng-container *ngFor="let item of elements; let i = index">
+      <div class="item" [ngStyle]="{'order': item.orderlevel}">
+        <app-button *ngIf="item.uielement == 'BUTTON'" [data]="item" (updateEvent)="updateEvent($event)" />
+        <app-range *ngIf="item.uielement == 'SLIDER'" [data]="item" (updateEvent)="updateEvent($event)"/>
+      </div>
+    </ng-container>
+    </div>
 </main>
 <router-outlet />

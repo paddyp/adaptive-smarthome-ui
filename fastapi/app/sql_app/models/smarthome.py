@@ -16,10 +16,10 @@ class IconEnum(str, PythonEnum):
 
 class SmarthomeDeviceChannelTypeEnum(str, PythonEnum): 
     INT = 'INT', 
-    FLOAT = 'FLOAT'
+    FLOAT = 'FLOAT',
     COLOR_RED = 'COLOR_RED', 
-    COLOR_GREEN = 'COLOR_GREEN'
-    COLOR_BLUE = 'COLOR_BLUE'
+    COLOR_GREEN = 'COLOR_GREEN',
+    COLOR_BLUE = 'COLOR_BLUE',
     DIMMER = 'DIMMER'
 
 class SmarthomeDevice(Base): 
@@ -29,7 +29,7 @@ class SmarthomeDevice(Base):
     name = Column(String(100), )
     icon = Column(Enum(IconEnum))
 
-    channels = relationship("SmarthomeDeviceChannel", back_populates="smarthomedevices")
+    channels = relationship("SmarthomeDeviceChannel", back_populates="smarthomedevices", cascade="all, delete-orphan")
 
     def as_dict(self):
        out =  {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -42,10 +42,11 @@ class SmarthomeDeviceChannel(Base):
     id = Column(Integer, primary_key=True)
     channel_no = Column(Integer)
     smarthomedevice_id = Column(Integer, ForeignKey("smarthomedevice.id"))
+    contextofuse_id = Column(Integer, ForeignKey("contextofuse.id"))
     type = Column(Enum(SmarthomeDeviceChannelTypeEnum))
 
     smarthomedevices = relationship("SmarthomeDevice", back_populates="channels", foreign_keys=[smarthomedevice_id])
-    contextofuse = relationship("ContextOfUse", back_populates="smarthomedevicechannel")
+    contextofuse = relationship("ContextOfUse")
 
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

@@ -1,0 +1,5 @@
+<label for="rangeslider_{{data.id}}" class="form-label">{{data.name}}</label>
+<div style="display: flex; gap: 4px; align-items: center;">
+    <span>{{data.min}}</span><input type="range" min="0"class="form-range" max="100" id="rangeslider_{{data.id}}"step="{{data.step}}" [(ngModel)]="data.current_value" (mouseup)="sendChangedValues(this)"><span>{{data.max}}</span>
+</div>
+<app-current-values [values]="data.values" />

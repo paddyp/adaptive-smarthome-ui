@@ -9,12 +9,16 @@
     <li class="nav-item">
       <a class="nav-link" (click)="changeView('adaptuirules')" href="#">AdaptUIRules</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="changeView('uielement')" href="#">UI Element</a>
+    </li>
   </ul>
-  <app-smart-home-view *ngIf="currentTab == 'smarthomedevices'" smarthomedevices=""/>
-  <app-context-of-use-view *ngIf="currentTab == 'contextofuse'"/>
-  <app-adapt-uiview *ngIf="currentTab == 'adaptuirules'" />
-  <button (click)="sendData()">Send Message</button> 
-
+  <main class="container">
+  <app-smart-home-view *ngIf="currentTab == 'smarthomedevices' && smartHomeDeviceSchema" [data]="data" [schema]="smartHomeDeviceSchema" (updateEvent)="changeOrCreateEvent($event)"/>
+  <app-context-of-use-view *ngIf="currentTab == 'contextofuse' && contextOfUseSchema" [data]="data" [schema]="contextOfUseSchema" (updateEvent)="changeOrCreateEvent($event)"/>
+  <app-adapt-uiview *ngIf="currentTab == 'adaptuirules'" [data]="data" [schema]="adaptUIRUleSchema" (updateEvent)="changeOrCreateEvent($event)" />
+  <app-uielement *ngIf="currentTab == 'uielement' && uielementSchema" [data]="data" [schema]="uielementSchema" (updateEvent)="changeOrCreateEvent($event)"/>
+</main>
 
 </main>
 <router-outlet />

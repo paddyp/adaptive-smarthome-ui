@@ -4,7 +4,7 @@ from enum import Enum as PythonEnum
 
 from ..database import Base
 
-class TypeEnum(PythonEnum): 
+class TypeEnum(str, PythonEnum): 
     INT = 'INT', 
     FLOAT = 'FLOAT', 
     STRING = 'STRING', 
@@ -20,7 +20,7 @@ class ContextOfUse(Base):
     key = Column(String(255), index=True)
     value = Column(String(255), index=True)
     type = Column(Enum(TypeEnum))
-    smarthomedevicechannel_id = Column(Integer, ForeignKey("smarthomedevicechannel.id"))
 
-    smarthomedevicechannel = relationship("SmarthomeDeviceChannel", back_populates="contextofuse")
+    metauielementvalues = relationship("Value", back_populates="contextofuse", cascade="all, delete", passive_deletes=True)
+
 

@@ -20,8 +20,8 @@ docker-compose exec fastapi alembic revision --autogenerate -m 'name_of_migratio
 
 ```bash 
 # inside the container 
-alembic alembic upgrade head
+alembic upgrade head
 
 # outside of the container 
-docker-compose exec fastapi alembic alembic upgrade head
+docker-compose exec fastapi alembic upgrade head
 ```

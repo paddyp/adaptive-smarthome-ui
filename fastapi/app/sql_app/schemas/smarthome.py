@@ -1,33 +1,41 @@
 from pydantic import BaseModel
 from ..models.smarthome import SmarthomeDeviceChannelTypeEnum, IconEnum
+from .contextofuse import ContextOfUse
+from sql_app import models 
 
-class SmarthomeDeviceChannelBase(BaseModel): 
+class SmarthomeDeviceChannel(BaseModel): 
+    id: int = None
     channel_no: int
-    type: SmarthomeDeviceChannelTypeEnum = SmarthomeDeviceChannelTypeEnum.INT
-    
-    class Config:
-        orm_mode = True
-
-class SmarthomeDeviceChannel(SmarthomeDeviceChannelBase): 
-    id: int
-    smarthomedevice_id: int
+    type: SmarthomeDeviceChannelTypeEnum
+    contextofuse_id: int = None
 
     class Config:
         orm_mode = True
+        orm_model = models.SmarthomeDeviceChannel
 
-class SmarthomeDeviceBase(BaseModel): 
+
+class SmarthomeDevice(BaseModel): 
+    id: int = None
     name: str 
     icon: IconEnum
-    channels: list[SmarthomeDeviceChannelBase]
+    channels: list[SmarthomeDeviceChannel]
 
     class Config:
         orm_mode = True
+        orm_model = models.SmarthomeDevice
 
-class SmarthomeDevice(SmarthomeDeviceBase): 
-    id: int
 
-    class Config:
-        orm_mode = True
+class SmarhomeViewChannel(BaseModel): 
+    id: int = None
+    channel_no: int
+    type: SmarthomeDeviceChannelTypeEnum
+    contextofuse: ContextOfUse = None
+
+class SmarthomeView(BaseModel): 
+    id: int = None
+    name: str 
+    icon: IconEnum
+    channels: list[SmarhomeViewChannel]
     
 
     

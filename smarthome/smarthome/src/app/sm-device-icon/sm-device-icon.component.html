@@ -1,1 +1,3 @@
-<i ngif="iconName != 'LAMP';" class="bi bi-lightbulb"></i>
+<i *ngIf="iconName == 'LAMP';" class="bi bi-lightbulb"></i>
+<i *ngIf="iconName == 'SHUTTER';" class="bi bi-shop-window"></i>
+<i *ngIf="iconName == 'HEATER';" class="bi bi-radioactive"></i>

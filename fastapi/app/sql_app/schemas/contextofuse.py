@@ -1,11 +1,14 @@
 from pydantic import BaseModel
 from ..models.contextofuse import TypeEnum
+from sql_app import models
 
-class ContextOfUseBase(BaseModel): 
+class ContextOfUse(BaseModel): 
+    id: int = None
     key: str
     value: str 
     type: TypeEnum
-    smarthomedevicechannel_id: int = None
+    
+    class Config:
+        orm_mode = True
+        orm_model = models.ContextOfUse
 
-class ContextOfUse(ContextOfUseBase): 
-    id: int

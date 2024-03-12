@@ -1,13 +1,12 @@
-<main class="main">
-  <button type="button" class="btn btn-primary" (click)="getData()">Send Message</button>
-  {{data}}
+<main class="container" >
+  <h1> Smarthome </h1>
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">#ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Icon</th>
+        <th scope="col">Channels</th>
       </tr>
     </thead>
     
@@ -19,7 +18,14 @@
           </td>
           <td><app-sm-device-icon icon={{item.icon}}></app-sm-device-icon> 
           </td>
-          <td>mdo</td>
+          <td>
+              <span *ngFor="let channel of item.channels">
+                {{channel.channel_no}} : 
+                <span *ngIf="channel.contextofuse">
+                {{channel.contextofuse.value}} ({{channel.contextofuse.key}})</span><br />
+              </span>
+
+          </td>
         </tr>
       </tbody>
 

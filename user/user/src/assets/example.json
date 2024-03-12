@@ -1,0 +1,20 @@
+[
+    {
+        "uielement": "BUTTON",
+        "title": "Set Temperatur to 20",
+        "current_value": 1,
+        "min": 0,
+        "max": 20,
+        "min_color": 0,
+        "max_color": 16777215,
+        "values": [
+            {
+                "name": "Temperature",
+                "value": 15,
+                "type": "INT"
+            }
+        ],
+        "description": "This is a description",
+        "orderlevel": 1
+    }
+]

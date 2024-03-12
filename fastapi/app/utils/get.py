@@ -8,9 +8,10 @@ import json
 logger = logging.getLogger(__name__)
 
 schemas_dic = {
-    "smarthome": schemas.SmarthomeDeviceBase.schema(), 
-    "contextofuse": schemas.ContextOfUseBase.schema(), 
-    "adaptrules": schemas.ActionUIRuleBase.schema(),  
+    "smarthome": schemas.SmarthomeDevice.schema(), 
+    "contextofuse": schemas.ContextOfUse.schema(), 
+    "adaptrules": schemas.AdaptUIRuleBase.schema(),  
+    "uielement": schemas.UIElement.schema(),
 }
 def get_data(data, db): 
     _ = data

@@ -1,0 +1,9 @@
+.items{
+    display: flex;
+    flex-direction: column;
+    .item{
+        padding: 40px 10px 40px 10px;
+        border-bottom: 1px solid gray;
+    }
+
+}

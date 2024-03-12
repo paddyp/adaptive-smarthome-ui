@@ -1,1 +1,52 @@
-<p>context-of-use-view works!</p>
+<h1> Create Context of use</h1>
+<json-schema-form
+  [schema]="schema"
+  [data]="createData"
+  framework="bootstrap-5"
+  (onSubmit)="Submit($event)">
+</json-schema-form> 
+
+<h1> List of Context of use</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">key</th>
+      <th scope="col">value</th>
+      <th scope="col">Type</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+
+ 
+    </tr>
+  </thead>
+  <tbody *ngIf="data" class="table-striped"> 
+    <ng-container *ngFor="let item of data['contextofuse']; let i = index">
+    <tr *ngIf="item.id != editID; else editMode">
+      <td>{{item.id}}</td>
+      <td>{{item.key}}</td>
+      <td>{{item.value}}</td>
+      <td>{{item.type}}</td>
+      <td><button (click)="toggleEditMode(item.id)"><i class="bi bi-pen"></i>
+      </button></td>
+      <td><button (click)="deleteItem(item)"><i class="bi bi-trash"></i>
+      </button></td>
+
+
+
+      </tr>
+      <ng-template #editMode>
+        <tr>
+          <td colspan="6">
+            <json-schema-form framework="bootstrap-5" [schema]="schema" (onSubmit)="Submit($event)" [data]="item"></json-schema-form>
+            <button (click)="toggleEditMode(item.id)"><i class="bi bi-eye"></i>
+            </button>
+          </td>
+        </tr>
+        </ng-template>
+    </ng-container>
+    </tbody> 
+
+
+</table>
