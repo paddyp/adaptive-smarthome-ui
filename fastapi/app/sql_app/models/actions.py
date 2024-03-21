@@ -30,13 +30,26 @@ class AdjustValueViewAction(Base):
     __tablename__ = "adjustvalueviewaction"
 
     id = Column(Integer, primary_key=True)
-    metauielemeentvalue_id = Column(Integer, ForeignKey("metauielemeentvalue.id", ondelete="CASCADE"))
+    metauielement_id = Column(Integer, ForeignKey("metauielement.id", ondelete="CASCADE"))
     adaptuirule_id = Column(Integer, ForeignKey("adaptuirule.id", ondelete="CASCADE"))
     min = Column(Integer)
     max = Column(Integer)
 
-    metauielemeentvalue = relationship("Value", back_populates="adjust_value_actions")
+    metauielement = relationship("MetaUIElement", back_populates="adjust_value_actions")
     adaptuirule = relationship("AdaptUIRule", back_populates="adjust_value_actions")
+    adjust_value = relationship("AdjustValue", back_populates="adjust_value_action")
+
+class AdjustValue(Base): 
+    __tablename__ = "adjustvalue"
+
+    id = Column(Integer, primary_key=True)
+    adjust_value_action_id = Column(Integer, ForeignKey("adjustvalueviewaction.id", ondelete="CASCADE"))
+    metauielemeentvalue_id = Column(Integer, ForeignKey("metauielemeentvalue.id", ondelete="CASCADE"))
+    min = Column(Integer)
+    max = Column(Integer)
+
+    metauielemeentvalues = relationship("Value", back_populates="adjust_value_actions")
+    adjust_value_action = relationship("AdjustValueViewAction", back_populates="adjust_value")
 
 class LayoutChangeAction(Base): 
     __tablename__ = "layoutchangeaction"

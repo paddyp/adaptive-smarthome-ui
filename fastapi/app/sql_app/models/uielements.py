@@ -25,8 +25,10 @@ class MetaUIElement(Base):
 
     create_actions = relationship("CreateViewAction", back_populates="metauielement",cascade="all, delete", passive_deletes=True)
     delete_actions = relationship("DeleteViewAction", back_populates="metauielement",cascade="all, delete", passive_deletes=True)
+    adjust_value_actions = relationship("AdjustValueViewAction", back_populates="metauielement",cascade="all, delete", passive_deletes=True)
     layout_change_actions = relationship("LayoutChangeAction", back_populates="metauielement",cascade="all, delete", passive_deletes=True)
     values = relationship("Value", back_populates="metauielement",cascade="all, delete", passive_deletes=True)
+    adjust_value_actions = relationship("AdjustValueViewAction", cascade="all, delete", passive_deletes=True)
 
 class Value(Base): 
     __tablename__ = "metauielemeentvalue"
@@ -39,5 +41,5 @@ class Value(Base):
     contextofuse_id = Column(Integer, ForeignKey("contextofuse.id", ondelete="CASCADE"))
     
     metauielement = relationship("MetaUIElement", back_populates="values")
-    adjust_value_actions = relationship("AdjustValueViewAction", back_populates="metauielemeentvalue")
     contextofuse = relationship("ContextOfUse", back_populates="metauielementvalues") 
+    adjust_value_actions = relationship("AdjustValue", back_populates="metauielemeentvalues")

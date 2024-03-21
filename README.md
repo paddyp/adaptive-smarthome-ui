@@ -6,11 +6,11 @@ This is a Repository for the Masterthesis
 - Docker and Docker-Compose 
     - for Mac Docker Desktop is needed
 
-Tested on Mac M1, 2020 with Sonoma 14.1.1 and Docker for Mac in version XXX 
+Tested on Mac M1, 2020 with Sonoma 14.1.1 and Docker for Mac in version 4.27.2 
 
 # Setup 
 
-Execute ```docker-compose``` command on root 
+Execute ```docker-compose``` command on root-folder
 
 ``` bash
 docker-compose up -d 
@@ -26,6 +26,16 @@ angular_user        adaptive-smarthome-ui-angular_user        "sh -c /app/init.s
 fastapi             adaptive-smarthome-ui-fastapi             "uvicorn main:app --…"   fastapi             27 hours ago        Up X hours         80/tcp, 0.0.0.0:8000->8000/tcp
 mariadb             mariadb                                   "docker-entrypoint.s…"   mariadb             2 days ago          Up X hours         0.0.0.0:3306->3306/tcp
 ```
+
+# Quick Start 
+1. ```docker-compose up -d``` - Setup Docker-Container 
+2. Navigate to http://localhost:4200 and create 
+* context of Use Variables 
+* Smart-Home Devices 
+* MetaUIElements 
+* AdaptUIRules with min 1 create Rule 
+3. Evaluate that the Smarthome-Device is shown at the smarthome-view http://localhost:4201
+4. See the final View at http://localhost:4202
 
 # Linklist 
 ### Frontend links

@@ -69,7 +69,9 @@ def create_adaptui(data, db):
     logger.info("inside of create adaptui")
     try: 
         orcondition = data.pop("orconditions")
+        adjust_value_actions = data.pop("adjust_value_actions")
         data["orconditions"] = []
+        data["adjust_value_actions"] = []
         adaptui_schema = parse_pydantic_schema(schemas.AdaptUIRuleBase(**data))
         # 
         orconditions = []
@@ -79,6 +81,12 @@ def create_adaptui(data, db):
         
         adaptui_schema["orconditions"] = orconditions
 
+        adjust_value_actions_out = []
+        for adjust_value_action in adjust_value_actions: 
+            adjust_value_action_dict = parse_pydantic_schema(schemas.AdjustValueAction(**adjust_value_action))
+            adjust_value_actions_out.append(models.AdjustValueViewAction(**adjust_value_action_dict))
+
+        adaptui_schema["adjust_value_actions"] = adjust_value_actions_out
         model = models.AdaptUIRule(**adaptui_schema)
         db.add(model)
         db.commit()

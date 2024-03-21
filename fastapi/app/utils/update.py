@@ -96,8 +96,13 @@ def update_adaptui(data, db):
     try:
         if "data" in data and "id" in data["data"]: 
             id = data["data"]["id"]
+            
             orcondition = data["data"].pop("orconditions") if "orconditions" in data["data"] else []
             data["data"]["orconditions"] = []
+
+            adjust_value_actions = data["data"].pop("adjust_value_actions") if "adjust_value_actions" in data["data"] else []
+            data["data"]["adjust_value_actions"] = []
+
             adaptui_schema = parse_pydantic_schema(schemas.AdaptUIRuleBase(**data["data"]))
             orconditions = []
             for condition in orcondition:
@@ -105,6 +110,14 @@ def update_adaptui(data, db):
                 orconditions.append(models.AdaptUIRuleORCondition(**or_condition_dict))
             
             adaptui_schema["orconditions"] = orconditions
+
+            adjust_value_actions_out = []
+            for adjust_value_action in adjust_value_actions: 
+                adjust_value_action_dict = parse_pydantic_schema(schemas.AdjustValueAction(**adjust_value_action))
+                adjust_value_actions_out.append(models.AdjustValueViewAction(**adjust_value_action_dict))
+
+            adaptui_schema["adjust_value_actions"] = adjust_value_actions_out
+
             model = models.AdaptUIRule(**adaptui_schema)
             db.query(models.AdaptUIRule).filter(models.AdaptUIRule.id == id).delete()
             db.add(model)

@@ -44,7 +44,7 @@ def get_adaptuirules(db: Session, skip: int = 0, limit: int = 100) -> list:
     query_list = db.query(models.AdaptUIRule).options(
         joinedload(models.AdaptUIRule.create_actions), 
         joinedload(models.AdaptUIRule.delete_actions), 
-        joinedload(models.AdaptUIRule.adjust_value_actions), 
+        joinedload(models.AdaptUIRule.adjust_value_actions).subqueryload(models.AdjustValueViewAction.adjust_value), 
         joinedload(models.AdaptUIRule.layout_change_actions),
         joinedload(models.AdaptUIRule.orconditions).subqueryload(models.AdaptUIRuleORCondition.andconditions),
         joinedload(models.AdaptUIRule.influenced_context_of_use_vars), 
@@ -63,6 +63,9 @@ def get_adaptuirules(db: Session, skip: int = 0, limit: int = 100) -> list:
                     pass
         for x in temp_dict["orconditions"]: 
             x["andconditions"]= [action.__dict__ for action in x["andconditions"]]
+            
+        for x in temp_dict["adjust_value_actions"]: 
+            x["adjust_value"]= [action.__dict__ for action in x["adjust_value"]]
         # temp_dict['create_actions'] = [action.__dict__ for action in temp_dict['create_actions']]
         # temp_dict['influenced_context_of_use_vars'] = [action.__dict__ for action in temp_dict['influenced_context_of_use_vars']]
         temp_adaptuirule = schemas.AdaptUIRuleBase(**temp_dict)
@@ -127,7 +130,7 @@ def get_userview(db: Session) -> list:
         joinedload(models.AdaptUIRule.orconditions).subqueryload(models.AdaptUIRuleORCondition.andconditions), 
         joinedload(models.AdaptUIRule.create_actions).subqueryload(models.CreateViewAction.metauielement).subqueryload(models.MetaUIElement.values).subqueryload(models.Value.contextofuse), 
         joinedload(models.AdaptUIRule.delete_actions),
-        joinedload(models.AdaptUIRule.adjust_value_actions).subqueryload(models.AdjustValueViewAction.metauielemeentvalue).subqueryload(models.Value.contextofuse),
+        joinedload(models.AdaptUIRule.adjust_value_actions).subqueryload(models.AdjustValueViewAction.adjust_value).subqueryload(models.AdjustValue.metauielemeentvalues).subqueryload(models.Value.contextofuse),
     ).order_by(models.AdaptUIRule.level)
     relevant_rules = []
     for rule in query_adaptuirules: 
@@ -146,8 +149,11 @@ def get_userview(db: Session) -> list:
 
         # step 3 adjust
         for avaction in rule.adjust_value_actions: 
-            avaction.metauielemeentvalue.min = avaction.min
-            avaction.metauielemeentvalue.max = avaction.max
+            avaction.metauielement.min = avaction.min
+            avaction.metauielement.max = avaction.max
+            for avactionvalue in avaction.adjust_value: 
+                avactionvalue.metauielemeentvalues.min = avactionvalue.min
+                avactionvalue.metauielemeentvalues.max = avactionvalue.max
             # db.commit()
         
 

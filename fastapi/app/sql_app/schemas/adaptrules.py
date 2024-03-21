@@ -21,16 +21,29 @@ class DeleteViewAction(ActionBase):
     class Meta: 
         orm_model = models.DeleteViewAction
 
+class AdjustValue(BaseModel): 
+    id: int = None
+    adjust_value_action_id: int = None
+    metauielemeentvalue_id: int
+    min: int 
+    max: int 
+
+    class Meta: 
+        orm_model = models.AdjustValue
 
 class AdjustValueAction(BaseModel): 
     id: int = None 
-    metauielemeentvalue_id: int
-    adaptuirule_id: int = None 
+    metauielement_id: int
+    adaptuirule_id: int = None
+    adjust_value: list[AdjustValue] = [] 
+
     min: int 
     max: int
 
     class Meta: 
         orm_model = models.AdjustValueViewAction
+
+
 
 class LayoutChangeAction(ActionBase): 
     key: str 
